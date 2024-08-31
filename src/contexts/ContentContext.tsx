@@ -72,6 +72,7 @@ interface ContentContextType {
   fetchAndSetDeletedArticles: () => Promise<void>;
   updateCategory: (updatedCategory: Category) => void;
   deleteArticle: (articleId: number) => Promise<void>; // Add this line
+  saveArticle: (article: Article) => void; // Correct type for saveArticle
   deleteCategory: (categoryId: number) => Promise<void>; // Add this line
 }
 
@@ -210,7 +211,22 @@ export interface ActionLogsResponse {
   logs: ActionLog[];
 }
 
+export interface Article {
+  ArticleID: number;
+  Slug: string;
+  Title: string;
+  Description: string;
+  CreatedAt: string;
+  CategoryID: number;
+}
+
 export const ContentContext = createContext<ContentContextType | null>(null);
+
+interface ContentContextProps {
+  articles: Article[];
+  saveArticle: (article: Article) => void;
+}
+
 
 export const ContentProvider: React.FC<ContentProviderProps> = ({
   children,
@@ -251,6 +267,12 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
       setLoading(false);
       return;
     }
+
+
+    const saveArticle = (article: Article) => {
+      setArticles((prevArticles) => [...prevArticles, article]);
+    };
+
 
     const categoryId = articleToDelete.CategoryID;
 
@@ -979,6 +1001,12 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
     }
   };
 
+
+  const saveArticle = (article: Article) => {
+    setArticles((prevArticles) => [...prevArticles, article]);
+  };
+
+
   // Function to restore an article and update context
   const handleRestoreArticle = async (articleId: number) => {
     try {
@@ -1101,6 +1129,7 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
     <ContentContext.Provider
       value={{
         articles,
+        saveArticle,
         categories,
         loading,
         error,

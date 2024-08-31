@@ -605,7 +605,7 @@ function generateSyntax(elements: ContentElement[]): string {
 
 
   return (
-    <div className="outer-container">
+    <div className="outer-container text-zinc-800">
       <div className="">
       <MenuBar
           isDimensionsEnabled={isDimensionsEnabled}
@@ -645,7 +645,7 @@ function generateSyntax(elements: ContentElement[]): string {
               )}
             </div>
             <div className="add-element-block select-none" onClick={handleDropdownToggle}>
-              <span>Add Element</span>
+              <span className="text-zinc-500">Add Element</span>
               {dropdownVisible && (
                 <div
                 className={`dropdown-menu dropdown-menu-${dropdownDirection}`} // Adjust class based on direction
@@ -671,14 +671,14 @@ function generateSyntax(elements: ContentElement[]): string {
                       type="text"
                       placeholder="Search elements..."
                       value={searchTerm}
-                      className="select-none"
+                      className="select-none text-zinc-500 focus:outline-none"
                       onChange={(e) => {
                         const target = e.target as HTMLInputElement;
                         setSearchTerm(target.value);
                       }}
                     />
                   </div>
-                  <div className="dropdown-menu-items select-none">
+                  <div className="dropdown-menu-items select-none text-zinc-500">
                     {filteredElements.map((type, index) => (
                       <button
                         key={index}
@@ -704,7 +704,7 @@ function generateSyntax(elements: ContentElement[]): string {
               <h2>Custom Syntax</h2>
               <span className="modal-close" onClick={hideModal}>&times;</span>
             </div>
-            <div className="modal-content">
+            <div className="modal-content !text-zinc-500">
             {syntax ? (
     <pre>{syntax}</pre>
   ) : (

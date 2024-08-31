@@ -39,7 +39,7 @@ const Header: React.FC = () => {
 	return (
 		<nav>
 			<div
-				className="menu-toggle"
+				className={`menu-toggle ${redirecting ? 'hidden' : ''}`}
 				onClick={redirecting ? cancelRedirect : toggleMenu}
 				onKeyUp={event => {
 					if (event.key === 'Enter') {
@@ -50,7 +50,7 @@ const Header: React.FC = () => {
 				tabIndex={0}
 			>
 				{redirecting ? (
-					<span className="cancel-text">Cancel</span>
+					<span className="cancel-text hidden">Cancel</span>
 				) : (
 					<i className={isOpen ? 'fas fa-times' : 'fas fa-bars'}></i>
 				)}
@@ -115,7 +115,7 @@ const Header: React.FC = () => {
           <button
 						className="list__item"
 						onClick={() =>
-							handleRedirect('https://imperfectgamers.org/infractions')
+							handleRedirect('https://store.imperfectgamers.org/')
 						}
 						onKeyUp={event => {
 							if (event.key === 'Enter')

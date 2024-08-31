@@ -316,7 +316,7 @@ function generateSyntax(elements: ContentElement[]): string {
                 <div className="my-4">
                   <label
                     htmlFor="articleTitle"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-zinc-400"
                   >
                     Title
                   </label>
@@ -325,7 +325,7 @@ function generateSyntax(elements: ContentElement[]): string {
                     id="articleTitle"
                     value={articleTitle}
                     onChange={handleTitleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className="border border-zinc-900 focus:border-zinc-800 focus:bg-zinc-900 hover:bg-zinc-950 duration-500 hover:border-zinc-800 p-2 w-full transition focus:outline-none bg-zinc-900  text-zinc-200"
                     placeholder="Enter article title"
                     disabled={loading || saving}
                     readOnly={loading || saving}
@@ -334,7 +334,7 @@ function generateSyntax(elements: ContentElement[]): string {
                 <div className="my-4">
                   <label
                     htmlFor="articleDescription"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-zinc-400"
                   >
                     Description
                   </label>
@@ -343,7 +343,7 @@ function generateSyntax(elements: ContentElement[]): string {
                     id="articleDescription"
                     value={articleDescription}
                     onChange={handleDescriptionChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className="border border-zinc-900 focus:border-zinc-800 focus:bg-zinc-900 hover:bg-zinc-950 duration-500 hover:border-zinc-800 p-2 w-full transition focus:outline-none bg-zinc-900  text-zinc-200"
                     placeholder="Enter article description"
                     disabled={loading || saving}
                     readOnly={loading || saving}
@@ -352,7 +352,7 @@ function generateSyntax(elements: ContentElement[]): string {
                 <div className="my-4">
                   <label
                     htmlFor="articleImgSrc"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-zinc-400"
                   >
                     Image URL
                   </label>
@@ -361,7 +361,7 @@ function generateSyntax(elements: ContentElement[]): string {
                     id="articleImgSrc"
                     value={articleImgSrc}
                     onChange={handleImgSrcChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className="border border-zinc-900 focus:border-zinc-800 focus:bg-zinc-900 hover:bg-zinc-950 duration-500 hover:border-zinc-800 p-2 w-full transition focus:outline-none bg-zinc-900  text-zinc-200"
                     placeholder="Enter image URL"
                     disabled={loading || saving}
                     readOnly={loading || saving}
@@ -409,7 +409,7 @@ function generateSyntax(elements: ContentElement[]): string {
                     type="button"
                     onClick={() => saveEdit()}
                     disabled={!isContentChanged || saving} // Disable button while saving
-                    className="ml-2 p-1 px-4 font-semibold text-white bg-indigo-500 hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 transition rounded-md disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none"
+                    className="ml-2 p-1 px-4 font-semibold text-white bg-yellow-500 hover:bg-yellow-700 focus:ring-2 focus:ring-yellow-500 transition rounded-md disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none"
                     title={
                       !isContentChanged
                         ? "No changes to update"
@@ -436,7 +436,7 @@ function generateSyntax(elements: ContentElement[]): string {
                       }
                     }}
                     disabled={!isContentChanged || saving} // Disable button while saving
-                    className="p-1 px-4 font-semibold text-white bg-stone-500 hover:bg-stone-600 focus:ring-2 focus:ring-stone-400 transition rounded-md select-none disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none"
+                    className="p-1 px-4 font-semibold text-white bg-zinc-500 hover:bg-zinc-600 focus:ring-2 focus:ring-zinc-400 transition rounded-md select-none disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none"
                     title={
                       !isContentChanged
                         ? "Reset unavailable without changes"
@@ -463,7 +463,7 @@ function generateSyntax(elements: ContentElement[]): string {
               {isFeatureEnabled("PreviewArticle") && (
                 <div className="m-5">
                   <div
-                    className="w-10 h-10 font-bold text-center text-white bg-stone-500 border-4 border-stone-400 transition duration-300 rounded-full cursor-pointer hover:bg-stone-600"
+                    className="w-10 h-10 font-bold text-center text-white bg-zinc-500 border-4 border-zinc-400 transition duration-300 rounded-full cursor-pointer hover:bg-zinc-600"
                     onClick={toggleRaw}
                   >
                     <svg
@@ -511,17 +511,17 @@ function generateSyntax(elements: ContentElement[]): string {
         articleTitle={loading ? "" : history && history[0]?.Title}
       />
       <div className="container relative px-8 py-16 mx-auto max-w-7xl md:px-12 lg:px-18 lg:py-22">
-        <h1 className="text-3xl font-normal tracking-tighter text-black sm:text-4xl lg:text-5xl">
+        <h1 className="text-3xl font-normal tracking-tighter text-zinc-300 sm:text-4xl lg:text-5xl">
           Editing:{" "}
           {loading ? (
-            <span className="animate transition animate-pulse bg-gray-100 px-24 ml-2"></span>
+            <span className="animate transition animate-pulse bg-zinc-800 px-24 ml-2"></span>
           ) : (
             history && history[0]?.Title
           )}
         </h1>
         {isFeatureEnabled("ViewPotentialArticleChanges") && (
           <button
-            className="text-stone-500 hover:text-indigo-900 transition duration-300 ease-in-out disabled:cursor-default disabled:opacity-20"
+            className="text-zinc-500 hover:text-yellow-900 transition duration-300 ease-in-out disabled:cursor-default disabled:opacity-20"
             onClick={() =>
               currentView === "raw" || currentView === "rendered"
                 ? togglePotentialChanges()
@@ -546,7 +546,7 @@ function generateSyntax(elements: ContentElement[]): string {
         <div className="my-4">
           <label
             htmlFor="categorySelect"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-zinc-400"
           >
             Category
           </label>
@@ -557,7 +557,7 @@ function generateSyntax(elements: ContentElement[]): string {
               const target = event.target as HTMLSelectElement;
               setSelectedCategory(Number(target.value));
             }}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="border border-zinc-900 focus:border-zinc-800 focus:bg-zinc-900 hover:bg-zinc-950 duration-500 hover:border-zinc-800 p-2 w-full transition focus:outline-none bg-zinc-900  text-zinc-200"
             disabled={loading || saving}
             readOnly={loading || saving}
           >

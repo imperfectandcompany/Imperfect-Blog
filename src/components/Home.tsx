@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "preact/hooks";
-import { ContentContext } from "../contexts/ContentContext";
+import { Article, ContentContext } from "../contexts/ContentContext";
 import { route } from "preact-router";
 
 interface BlogPost {
@@ -17,22 +17,40 @@ interface Category {
 }
 
 const Home = () => {
-  const { categories } = useContext(ContentContext);
-  const [articles, setArticles] = useState<BlogPost[]>([]);
+  const { articles, saveArticle, setArticles, categories } = useContext(ContentContext);
   const [loading, setLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    fetchBlogPosts();
-  }, []);
+    if (articles.length === 0 || categories.length === 0) {
+      fetchBlogPosts();
+    } else {
+      setLoading(false); // Set loading to false if articles and categories are already available
+    }
+  }, [articles, categories]);
+
+  useEffect(() => {
+    // Only fetch articles if the articles array is empty
+    if (articles.length === 0) {
+      fetchBlogPosts();
+    } else {
+      setLoading(false); // Set loading to false if articles are already available
+    }
+  }, [articles]); // Dependency array includes articles to ensure effect runs when articles change
 
   const fetchBlogPosts = async () => {
+    setLoading(true); // Ensure loading state is true when starting to fetch
     try {
       const response = await fetch('https://api.imperfectgamers.org/blog/fetch/all/articles');
       const text = await response.text();
       try {
         const data = JSON.parse(text);
         if (data.status === 'success' && Array.isArray(data.articles)) {
+          data.articles.forEach((article: Article) => {
+            saveArticle(article); // Save each fetched article to the context
+          });
+          // Assuming setArticles is a method provided by the context to update articles
+          // This method should handle adding these articles to the context
           setArticles(data.articles);
         } else {
           console.error('Unexpected data structure:', data);
@@ -44,9 +62,10 @@ const Home = () => {
     } catch (error) {
       console.error('Error fetching blog posts:', error);
     } finally {
-      setLoading(false);
+      setLoading(false); // Ensure loading state is false after fetching
     }
   };
+
 
   const navigateToBlogPost = (postSlug: string) => {
     route(`/post/${postSlug}`);

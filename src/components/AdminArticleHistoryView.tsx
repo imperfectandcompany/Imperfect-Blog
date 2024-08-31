@@ -41,7 +41,7 @@ export const AdminArticleHistoryView: FunctionalComponent<AdminArticleHistoryVie
         case 'article_detailed_description_changed':
           return { icon: '✏️', color: 'text-green-500', tooltip: 'Detailed description updated' };
         case 'article_img_src_changed':
-          return { icon: '🖼️', color: 'text-indigo-500', tooltip: 'Article image source changed' };
+          return { icon: '🖼️', color: 'text-yellow-500', tooltip: 'Article image source changed' };
         case 'article_set_staff_only':
           return { icon: '🔒', color: 'text-blue-500', tooltip: 'Article set to staff-only' };
         case 'article_set_public':
@@ -51,7 +51,7 @@ export const AdminArticleHistoryView: FunctionalComponent<AdminArticleHistoryVie
         case 'article_content_update_failed':
           return { icon: '⚠️', color: 'text-red-500', tooltip: 'Article update failed' };
         default:
-          return { icon: '❓', color: 'text-gray-500', tooltip: 'Unknown action' };
+          return { icon: '❓', color: 'text-zinc-500', tooltip: 'Unknown action' };
       }
     });
   }
@@ -69,9 +69,9 @@ const toggleVersionDetail = (versionId: number) => {
 const SkeletonVersionLog: FunctionalComponent = () => {
   return (
     <div className="space-y-4">
-      <div className="h-6 bg-gray-300 rounded"></div> {/* Version title */}
-      <div className="h-4 bg-gray-300 rounded w-3/4"></div> {/* Date */}
-      <div className="h-4 bg-gray-300 rounded w-1/2"></div> {/* Action type */}
+      <div className="h-6 bg-zinc-800 rounded"></div> {/* Version title */}
+      <div className="h-4 bg-zinc-800 rounded w-3/4"></div> {/* Date */}
+      <div className="h-4 bg-zinc-800 rounded w-1/2"></div> {/* Action type */}
     </div>
   );
 };
@@ -99,7 +99,7 @@ if (loading) {
 
 
   return (
-    <div className="xl mx-auto p-5 bg-yellow-50/25 rounded-sm shadow mt-12">
+    <div className="xl mx-auto p-5 bg-zinc-950/25 rounded-sm shadow mt-12">
       <h2 className="text-xl font-bold mb-4">Change History ({versions.length})</h2>
       {versions.map((version, index) => {
         const isActive = expandedVersion === version.VersionID;
@@ -125,12 +125,12 @@ if (loading) {
         }, [logsForVersion]);
 
         return (
-          <div key={version.VersionID} className="mb-4 p-4 bg-stone-50/25 rounded shadow-sm">
+          <div key={version.VersionID} className="mb-4 p-4 bg-zinc-800/25 rounded shadow-sm">
             <button onClick={() => toggleVersionDetail(version.VersionID)} className="flex justify-between items-center w-full text-left">
-              <p className="font-semibold text-gray-800">
+              <p className="font-semibold text-zinc-400">
                 [Version {versions.length - index}] Article {versions.length - index === 1 ? 'created' : 'edited'} on {new Date(version.CreatedAt).toLocaleString()}
               </p>
-              <span className={`transform transition-transform duration-300 text-indigo-500 ${isActive ? "rotate-180" : "rotate-0"}`}>
+              <span className={`transform transition-transform duration-300 text-yellow-500 ${isActive ? "rotate-180" : "rotate-0"}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>

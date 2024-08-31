@@ -89,19 +89,19 @@ export const AdminCreateCategory: FunctionalComponent = () => {
     <>
       <Breadcrumb path="/admin/create-category" />
       <div className="px-8 py-16 mx-auto max-w-7xl md:px-12 lg:px-18 lg:py-22">
-        <h1 className="text-3xl font-normal tracking-tighter text-black sm:text-4xl lg:text-5xl mb-8">
+        <h1 className="text-3xl font-normal tracking-tighter text-zinc-300 sm:text-4xl lg:text-5xl mb-8">
           Create New Category
         </h1>
         <form ref={formRef} onSubmit={handleCreate} noValidate className="space-y-4">
           <div className="block">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-zinc-400">
               Category Name:
             </label>
             <input
               type="text"
-              className={`mt-1 block w-full px-3 py-2 border ${
-                categoryExists ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+              className={`mt-1 block w-full px-3 py-2 border border-zinc-900 focus:border-zinc-800 focus:bg-zinc-900 hover:bg-zinc-950 duration-500 hover:border-zinc-800 p-2 transition focus:outline-none bg-zinc-900  text-zinc-200 ${
+                categoryExists ? "!border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500`}
               value={categoryName}
               onInput={(e) => handleCategoryChange((e.target as HTMLInputElement).value)}
               required
@@ -116,7 +116,7 @@ export const AdminCreateCategory: FunctionalComponent = () => {
             <button
               type="submit"
               disabled={loading || categoryExists || !categoryName.trim()}
-              className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50 transition ease-in-out duration-300"
+              className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50 transition ease-in-out duration-300"
             >
               {loading ? "Creating..." : "Create Category"}
             </button>

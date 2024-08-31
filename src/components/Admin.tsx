@@ -38,13 +38,13 @@ export const Admin: FunctionalComponent = () => {
     <>
     <Breadcrumb path={`/admin`} />
     <main class="max-w-md mx-auto p-8 md:p-12 my-10 rounded-lg shadow-xs ">
-      <h1 class="font-semibold text-3xl pb-5 text-center md:text-left animate-zoom-in">Log into Admin</h1>
-      <form class="opacity-0 animate-fade-in-delay" onSubmit={handleLogin}>
+    <h1 class="font-semibold text-3xl pb-5 text-center md:text-left text-white animate-zoom-in">Log into Admin</h1>
+    <form class="opacity-0 animate-fade-in-delay" onSubmit={handleLogin}>
         <div class="mb-4">
-          <label class="block text-md font-light mb-2" for="email">Email</label>
+          <label class="block text-md font-light mb-2 text-zinc-300" for="email">Email</label>
           <input
-            class="w-full bg-drabya-gray border-gray-500 appearance-none border p-4 font-light leading-tight focus:outline-none focus:shadow-outline"
-            type="text"
+              class="w-full bg-zinc-700 border border-zinc-600 text-white appearance-none p-4 font-light leading-tight focus:outline-none focus:border-yellow-500 transition"
+              type="text"
             name="email"
             id="email"
             placeholder="Email"
@@ -53,10 +53,10 @@ export const Admin: FunctionalComponent = () => {
           />
         </div>
         <div class="mb-4">
-          <label class="block text-md font-light mb-2" for="password">Password</label>
+        <label class="block text-md font-light mb-2 text-zinc-300" for="password">Password</label>
           <input
-            class="w-full bg-drabya-gray border-gray-500 appearance-none border p-4 font-light leading-tight focus:outline-none focus:shadow-outline"
-            type="password"
+              class="w-full bg-zinc-700 border border-zinc-600 text-white appearance-none p-4 font-light leading-tight focus:outline-none focus:border-yellow-500 transition"
+              type="password"
             name="password"
             id="password"
             placeholder="Password"
@@ -68,7 +68,7 @@ export const Admin: FunctionalComponent = () => {
         <div class="flex items-center justify-end mb-5">
           <button
             type="submit"
-            class="relative bg-red-600 flex-initial justify-items-start hover:bg-red-700 text-white font-semibold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
+            class="relative bg-yellow-700 flex-initial justify-items-start hover:bg-yellow-800 transition text-white font-semibold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
             disabled={isLoading}
           >
             Log In

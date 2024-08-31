@@ -142,10 +142,10 @@ export const AdminDashboard: FunctionalComponent = () => {
     <div>
       <Breadcrumb path={`/admin`} />
       <div className="container relative px-8 py-16 mx-auto max-w-7xl md:px-12 lg:px-18 lg:py-22">
-        <span className="text-xs font-medium tracking-widest text-transparent uppercase bg-clip-text bg-gradient-to-r from-indigo-300 via-indigo-400 to-indigo-500">
+        <span className="text-xs font-medium tracking-widest text-transparent uppercase bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500">
           Admin Dashboard
         </span>
-        <h1 className="mt-8 text-3xl font-normal tracking-tighter text-black sm:text-4xl lg:text-5xl">
+        <h1 className="mt-8 text-3xl font-normal tracking-tighter text-zinc-400 sm:text-4xl lg:text-5xl">
           Imperfect Gamers
         </h1>
         <div className="flex justify-end mt-8">
@@ -160,14 +160,14 @@ export const AdminDashboard: FunctionalComponent = () => {
         </div>
         <section className="mt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
-            <h2 className="text-xl font-bold !text-indigo-600 mb-4 sm:mb-0">
+            <h2 className="text-xl font-bold !text-yellow-600 mb-4 sm:mb-0">
               Content Management
             </h2>
             <div className="relative popover-container space-x-2">
               {isFeatureEnabled("ViewAdminLogs") && (
                 <button
                   onClick={() => route("/admin/logs")}
-                  className="px-4 py-2 bg-indigo-100 text-stone-800 hover:text-white font-bold rounded hover:bg-indigo-600 transition duration-300 ease-in-out"
+                  className="px-4 py-2 bg-yellow-100 text-stone-800 hover:text-white font-bold rounded hover:bg-yellow-600 transition duration-300 ease-in-out"
                 >
                   Visit Admin Logs
                 </button>
@@ -175,14 +175,14 @@ export const AdminDashboard: FunctionalComponent = () => {
               {isFeatureEnabled("ViewRecycleBin") && (
                 <button
                   onClick={() => route("/admin/recycle-bin")}
-                  className="px-4 py-2 bg-indigo-100 text-stone-800 hover:text-white font-bold rounded hover:bg-indigo-600 transition duration-300 ease-in-out"
+                  className="px-4 py-2 bg-yellow-100 text-stone-800 hover:text-white font-bold rounded hover:bg-yellow-600 transition duration-300 ease-in-out"
                 >
                   Recycle Bin
                 </button>
               )}
               <button
                 onClick={() => setIsPopoverOpen(!isPopoverOpen)}
-                className="px-4 py-2 bg-indigo-50 text-stone-800 transition hover:text-white font-medium rounded-md inline-flex items-center"
+                className="px-4 py-2 bg-yellow-50 text-stone-800 transition hover:text-white font-medium rounded-md inline-flex items-center"
               >
                 Create New
                 <svg
@@ -238,7 +238,7 @@ export const AdminDashboard: FunctionalComponent = () => {
                     <span className={"ml-2"}>Articles</span>)
                   </div>
                   <span
-                    className={`transform transition-transform duration-300 text-indigo-500 rotate-0`}
+                    className={`transform transition-transform duration-300 text-yellow-500 rotate-0`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -272,11 +272,11 @@ export const AdminDashboard: FunctionalComponent = () => {
                 <div key={category.CategoryID} className="mt-5">
                   <button
                     onClick={() => handleToggleSection(category.CategoryID)}
-                    className="flex hover:opacity-80 justify-between items-center w-full text-left text-lg font-semibold text-stone-900 py-2 transition duration-300 ease-in-out transform hover:scale-100 focus:outline-none"
+                    className="flex hover:opacity-80 justify-between items-center w-full text-left text-lg font-semibold text-zinc-300 py-2 transition duration-300 ease-in-out transform hover:scale-100 focus:outline-none"
                   >
                     {category.Title} ({articleCount} Articles)
                     <span
-                      className={`transform transition-transform duration-300 text-indigo-500 ${
+                      className={`transform transition-transform duration-300 text-yellow-500 ${
                         isActive ? "rotate-180" : "rotate-0"
                       }`}
                     >
@@ -311,7 +311,7 @@ export const AdminDashboard: FunctionalComponent = () => {
                                 `/admin/edit/category/${category.CategoryID}`
                               )
                             }
-                            className="text-stone-500 hover:text-indigo-900 transition duration-300 ease-in-out mb-4"
+                            className="text-stone-500 hover:text-yellow-900 transition duration-300 ease-in-out mb-4"
                           >
                             Edit Category
                           </button>
@@ -336,7 +336,7 @@ export const AdminDashboard: FunctionalComponent = () => {
       const classes = [
         'flex justify-between items-center mb-4 transition duration-300 ease-in-out p-4 transform',
         includeBgStone50 ? 'bg-stone-50' : '',
-        includeBorder ? 'border-l-4 border-indigo-600' : '',
+        includeBorder ? 'border-l-4 border-yellow-600' : '',
         (includeBgStone50 || includeBorder) ? 'animate animate-pulse' : '',
       ].join(' ').trim();
 
@@ -350,13 +350,13 @@ export const AdminDashboard: FunctionalComponent = () => {
               <h4 class="font-medium text-lg bg-gray-300 animate animate-pulse w-36 h-4"></h4>
               <p class="mt-1 bg-gray-200 animate animate-pulse w-28 h-4"></p>
               <div class="flex space-x-4 text-sm mt-1">
-                <div class={`cursor-pointer focus:cursor-default transition duration-300 ease-in-out text-indigo-500 hover:underline bg-indigo-200 animate animate-pulse ${archiveClass} h-4`}></div>
-                <div class={`cursor-pointer focus:cursor-default transition duration-300 ease-in-out text-indigo-500 hover:underline bg-indigo-200 animate animate-pulse ${publicClass} h-4`}></div>
+                <div class={`cursor-pointer focus:cursor-default transition duration-300 ease-in-out text-yellow-500 hover:underline bg-yellow-200 animate animate-pulse ${archiveClass} h-4`}></div>
+                <div class={`cursor-pointer focus:cursor-default transition duration-300 ease-in-out text-yellow-500 hover:underline bg-yellow-200 animate animate-pulse ${publicClass} h-4`}></div>
               </div>
             </div>
             <div class="flex space-x-4 text-sm mt-1">
               <button class="transition duration-300 ease-in-out text-red-500 hover:underline bg-red-200 animate animate-pulse w-12 h-4"></button>
-              <button class="transition duration-300 ease-in-out bg-indigo-200 animate animate-pulse w-12 h-4"></button>
+              <button class="transition duration-300 ease-in-out bg-yellow-200 animate animate-pulse w-12 h-4"></button>
             </div>
           </div>
         </div>
@@ -374,14 +374,14 @@ export const AdminDashboard: FunctionalComponent = () => {
                         <div key={article.ArticleID}>
                           <div
                             key={article.ArticleID}
-                            className="border-b border-gray-200"
+                            className="border-b border-zinc-900"
                           >
                             <div
                               className={`flex justify-between items-center mb-4 transition duration-300 ease-in-out p-4 transform ${
                                 article.Archived ? "bg-stone-50" : ""
                               } ${
                                 article.StaffOnly
-                                  ? "border-l-4 border-indigo-600"
+                                  ? "border-l-4 border-yellow-600"
                                   : ""
                               }`}
                             >
@@ -389,14 +389,14 @@ export const AdminDashboard: FunctionalComponent = () => {
                                 <h4 className="font-medium text-lg">
                                   {article.Title}
                                 </h4>
-                                <p className="mt-1">{article.Description}</p>
+                                <p className="mt-1 text-zinc-400">{article.Description}</p>
                                 <div className="flex space-x-4 text-sm mt-1">
                                   {isFeatureEnabled("ArchiveArticle") && (
                                     <button
                                       onClick={() =>
                                         handleToggleArchive(article.ArticleID)
                                       }
-                                      className="text-indigo-500 hover:underline"
+                                      className="text-yellow-500 hover:underline"
                                     >
                                       {article.Archived
                                         ? "Unarchive"
@@ -408,7 +408,7 @@ export const AdminDashboard: FunctionalComponent = () => {
                                       onClick={() =>
                                         handleToggleStaffOnly(article.ArticleID)
                                       }
-                                      className="text-indigo-500 hover:underline"
+                                      className="text-yellow-500 hover:underline"
                                     >
                                       {article.StaffOnly
                                         ? "Make Public"
@@ -434,7 +434,7 @@ export const AdminDashboard: FunctionalComponent = () => {
                                     onClick={() =>
                                       handleEdit(article.ArticleID)
                                     }
-                                    className="text-indigo-500 hover:text-indigo-800 transition duration-300 ease-in-out"
+                                    className="text-yellow-500 hover:text-yellow-800 transition duration-300 ease-in-out"
                                   >
                                     Edit
                                   </button>

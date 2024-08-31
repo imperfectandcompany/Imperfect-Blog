@@ -10,7 +10,7 @@ import { Article, Category, ContentContext } from "../contexts/ContentContext";
 interface BreadcrumbProps {
   path: string;
   categorySlug?: string;
-  categoryId?: number; // Add this to accept category ID
+  categoryId?: number;
   categoryTitle?: string;
   articleId?: number;
   articleTitle?: string;
@@ -21,42 +21,36 @@ interface BreadcrumbProps {
 const Breadcrumb: FunctionalComponent<BreadcrumbProps> = ({
   path,
   categorySlug,
-  categoryId, // Add this to destructure the prop
+  categoryId,
   categoryTitle,
   articleId,
   articleTitle,
   onBreadcrumbClick,
   onBreadcrumbClickHome,
 }) => {
-  let category: Category | undefined = undefined ;
+  let category: Category | undefined = undefined;
   let article: Article | undefined = undefined;
   const contentContext = useContext(ContentContext);
 
   if (categorySlug) {
-    // Find the category ID using the slug
     category = contentContext?.categories.find(
       (c: { Slug: string }) => generateSlug(c.Slug) === categorySlug
     );
   }
 
   if (articleId) {
-    // Find the article using the ID from the context
     article = contentContext?.articles.find((a) => a.ArticleID === articleId);
-
   } else if (articleTitle) {
-    // Find the article using the title (slug) from the context
     article = contentContext?.articles.find(
       (a) => generateSlug(a.Title) === articleTitle
     );
   }
 
   if (categoryId) {
-    // Find the article using the ID from the context
     category = contentContext?.categories.find(
       (a) => a.CategoryID === categoryId
     );
   } else if (categoryTitle) {
-    // Find the article using the title (slug) from the context
     category = contentContext?.categories.find(
       (a) => generateSlug(a.Title) === categoryTitle
     );
@@ -68,7 +62,7 @@ const Breadcrumb: FunctionalComponent<BreadcrumbProps> = ({
     <li key="home" className="inline">
       <Link
         href="/"
-        className="text-indigo-600 hover:text-indigo-800"
+        className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-[#ffcc47] to-[#ff6347] hover:from-red-500 hover:via-[#ffdd57] hover:to-[#ff7457] transition"
         onClick={onBreadcrumbClickHome}
       >
         Home
@@ -76,254 +70,86 @@ const Breadcrumb: FunctionalComponent<BreadcrumbProps> = ({
     </li>
   );
 
-  if (isFeatureEnabled("HomeSearch")) {
-    if (path.startsWith("/search")) {
-      breadcrumbItems.push(
-        <li key="search" className="inline">
-          <span className="mx-2 text-gray-500">/</span>
-          <Link
-            href="/search?query="
-            className="text-indigo-600 hover:text-indigo-800"
-            onClick={onBreadcrumbClick}
-          >
-            Search
-          </Link>
-        </li>
-      );
-    }
-  }
+  // Replace all instances of className with the gradient and hover effect
+  const linkClassName = "text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-[#ffcc47] to-[#ff6347] hover:from-red-500 hover:via-[#ffdd57] hover:to-[#ff7457] transition";
 
-  if (isFeatureEnabled("SupportSystem")) {
-    if (path.startsWith("/support")) {
-      breadcrumbItems.push(
-        <li key="support" className="inline">
-          <span className="mx-2 text-gray-500">/</span>
-          <Link
-            href="/support"
-            className="text-indigo-600 hover:text-indigo-800"
-          >
-            Support
-          </Link>
-        </li>
-      );
-    }
-  }
+  // Update the rest of the breadcrumb items
+  const breadcrumbPaths = [
+    { feature: "HomeSearch", pathStartsWith: "/search", label: "Search", href: "/search?query=" },
+    { feature: "SupportSystem", pathStartsWith: "/support", label: "Support", href: "/support" },
+    { feature: "AdminDashboard", pathIncludes: "/admin", label: "Admin", href: "/admin/dashboard" },
+    { feature: "CreateArticle", pathEquals: "/admin/create-article", label: "Create Article", href: "/admin/create/article" },
+    { pathEquals: "/admin/requests", label: "Requests", href: "/admin/requests" },
+    { feature: "CreateCategory", pathEquals: "/admin/create-category", label: "Create Category", href: "/admin/create/category" },
+    { pathEquals: "/admin/recycle-bin", label: "Recycle Bin", href: "/admin/recycle-bin" },
+    { feature: "ViewAdminLogs", pathEquals: "/admin/logs", label: "Logs", href: "/admin/logs" },
+    { feature: "EditCategory", pathIncludes: "/admin/edit/category", label: "Edit Category", href: `/admin/edit/category/${categoryId}` },
+    { feature: "EditArticle", pathIncludes: "/edit/article", label: "Edit Article", href: `/admin/edit/article/${articleId}` },
+    { feature: "CategoriesPage", pathEquals: "/categories", label: "Categories", href: "/categories" },
+    { feature: "SpecificCategoryPage", pathEquals: `/category/${categorySlug}`, label: category?.Title, href: `/category/${categorySlug}` },
+  ];
 
-  if (isFeatureEnabled("AdminDashboard")) {
-    if (path.includes("/admin")) {
-      breadcrumbItems.push(
-        <li key="admin" className="inline">
-          <span className="mx-2 text-gray-500">/</span>
-          <Link
-            href="/admin/dashboard"
-            className="text-indigo-600 hover:text-indigo-800"
-            onClick={onBreadcrumbClick}
-          >
-            Admin
-          </Link>
-        </li>
-      );
-      if (isFeatureEnabled("CreateArticle")) {
-        if (path === "/admin/create-article") {
-          breadcrumbItems.push(
-            <li key="createArticle" className="inline">
-              <span className="mx-2 text-gray-500">/</span>
-              <Link
-                href={`/admin/create/article`}
-                className="text-indigo-600 hover:text-indigo-800"
-                onClick={onBreadcrumbClick}
-              >
-                Create Article
-              </Link>
-            </li>
-          );
-        }
-      }
-      if (path === "/admin/requests") {
+  type FeatureFlags = {
+    HomeSearch: boolean;
+    SupportSystem: boolean;
+    AdminDashboard: boolean;
+    CreateArticle: boolean;
+    CreateCategory: boolean;
+    ViewAdminLogs: boolean;
+    EditCategory: boolean;
+    EditArticle: boolean;
+    CategoriesPage: boolean;
+    SpecificCategoryPage: boolean;
+  };
+
+  breadcrumbPaths.forEach(({ feature, pathStartsWith, pathIncludes, pathEquals, label, href }) => {
+    if (!feature || isFeatureEnabled(feature as keyof FeatureFlags)) {
+      if (
+        (pathStartsWith && path.startsWith(pathStartsWith)) ||
+        (pathIncludes && path.includes(pathIncludes)) ||
+        (pathEquals && path === pathEquals)
+      ) {
         breadcrumbItems.push(
-          <li key="support" className="inline">
+          <li key={label} className="inline">
             <span className="mx-2 text-gray-500">/</span>
             <Link
-              href={`/admin/requests`}
-              className="text-indigo-600 hover:text-indigo-800"
+              href={href}
+              className={linkClassName}
               onClick={onBreadcrumbClick}
             >
-              Requests
+              {label}
             </Link>
           </li>
         );
       }
-      if (isFeatureEnabled("CreateCategory")) {
-        if (path === "/admin/create-category") {
-          breadcrumbItems.push(
-            <li key="createCategory" className="inline">
-              <span className="mx-2 text-gray-500">/</span>
-              <Link
-                href={`/admin/create/category`}
-                className="text-indigo-600 hover:text-indigo-800"
-                onClick={onBreadcrumbClick}
-              >
-                Create Category
-              </Link>
-            </li>
-          );
-        }
-      }
-        if (path === "/admin/recycle-bin") {
-          breadcrumbItems.push(
-            <li key="recycleBin" className="inline">
-              <span className="mx-2 text-gray-500">/</span>
-              <Link
-                href={`/admin/recycle-bin`}
-                className="text-indigo-600 hover:text-indigo-800"
-                onClick={onBreadcrumbClick}
-              >
-                Recycle Bin
-              </Link>
-            </li>
-          );
-        }
-
-      if (isFeatureEnabled("ViewAdminLogs")) {
-        if (path === "/admin/logs") {
-          breadcrumbItems.push(
-            <li key="edit" className="inline">
-              <span className="mx-2 text-gray-500">/</span>
-              <Link
-                href={`/admin/logs`}
-                className="text-indigo-600 hover:text-indigo-800"
-                onClick={onBreadcrumbClick}
-              >
-                Logs
-              </Link>
-            </li>
-          );
-        }
-      }
-      if (isFeatureEnabled("EditCategory")) {
-        if (path.includes("/admin/edit/category") && categoryId) {
-          breadcrumbItems.push(
-            <li key="editCategory" className="inline">
-              <span className="mx-2 text-gray-500">/</span>
-              <Link
-                href={`/admin/edit/category/${categoryId}`}
-                className="text-indigo-600 hover:text-indigo-800"
-                onClick={onBreadcrumbClick}
-              >
-                Edit Category
-              </Link>
-            </li>
-          );
-
-          if (category) {
-            breadcrumbItems.push(
-              <li
-                key={`category-${categoryTitle}`}
-                className="inline font-bold"
-              >
-                <span className="mx-2 text-gray-500">/</span>
-                {category.Title} {/* Use Title directly */}
-              </li>
-            );
-          }
-        }
-      }
-
-      if (isFeatureEnabled("EditArticle")) {
-        if (path.includes("/edit/article") && articleId) {
-          // Since you already have the article from the context, you don't need to find it again
-          if (article) {
-            breadcrumbItems.push(
-              <li key="edit" className="inline">
-                <span className="mx-2 text-gray-500">/</span>
-                <Link
-                  href={`/admin/edit/article/${articleId}`}
-                  className="text-indigo-600 hover:text-indigo-800"
-                  onClick={onBreadcrumbClick}
-                >
-                  Edit Article
-                </Link>
-              </li>
-            );
-          } else {
-            breadcrumbItems.push(
-              <li key="edit" className="inline">
-                <span className="mx-2 text-gray-500">/</span>
-                <Link
-                  href={`/admin/edit/article/${articleId}`}
-                  className="text-indigo-600 hover:text-indigo-800"
-                  onClick={onBreadcrumbClick}
-                >
-                  Edit Article
-                </Link>
-              </li>
-            );
-          }
-        }
-      }
     }
-  }
-
-  if (isFeatureEnabled("CategoriesPage")) {
-    if (path === "/categories" || category) {
-      breadcrumbItems.push(
-        <li key="categories" className="inline">
-          <span className="mx-2 text-gray-500">/</span>
-          <Link
-            href="/categories"
-            className="text-indigo-600 hover:text-indigo-800"
-            onClick={onBreadcrumbClick}
-          >
-            Categories
-          </Link>
-        </li>
-      );
-    }
-  }
-  if (isFeatureEnabled("SpecificCategoryPage")) {
-    if (category) {
-      breadcrumbItems.push(
-        <li key={`category-${categorySlug}`} className="inline">
-          <span className="mx-2 text-gray-500">/</span>
-          <Link
-            href={`/category/${categorySlug}`}
-            className="text-indigo-600 hover:text-indigo-800"
-            onClick={onBreadcrumbClick}
-          >
-            {category.Title} {/* Use Title directly */}
-          </Link>
-        </li>
-      );
-    }
-  }
+  });
 
   if (article) {
     breadcrumbItems.push(
-      <li key={`category-${articleTitle}`} className="inline">
-      <span className="mx-2 text-gray-500">/</span>
-      <Link
-        href={`/article/${article.Slug}`}
-        className="text-indigo-600 hover:text-indigo-800"
-        onClick={onBreadcrumbClick}
-      >
-        {/* Use Title directly */}
-{article?.Title.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || article.Title} 
-      </Link>
-    </li>
+      <li key={`article-${article.ArticleID}`} className="inline">
+        <span className="mx-2 text-gray-500">/</span>
+        <Link
+          href={`/post/${article.Slug}`}
+          className={linkClassName}
+          onClick={onBreadcrumbClick}
+        >
+          {article.Title}
+        </Link>
+      </li>
     );
-  } else if(articleTitle){
+  } else if (articleTitle) {
     breadcrumbItems.push(
-      <li key={`category-${articleTitle}`} className="inline">
-      <span className="mx-2 text-gray-500">/</span>
-      <Link
-        href={`/article/${generateSlug(articleTitle)}`}
-        className="text-indigo-600 hover:text-indigo-800"
-        onClick={onBreadcrumbClick}
-      >
-        {/* Use Title directly */}
-{articleTitle.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || articleTitle} 
-      </Link>
-    </li>
+      <li key={`article-${articleTitle}`} className="inline">
+        <span className="mx-2 text-gray-500">/</span>
+        <Link
+          href={`/post/${generateSlug(articleTitle)}`}
+          className={linkClassName}
+          onClick={onBreadcrumbClick}
+        >
+          {articleTitle.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+        </Link>
+      </li>
     );
   }
 

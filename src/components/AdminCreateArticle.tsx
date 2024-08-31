@@ -254,7 +254,7 @@ export const AdminCreateArticle: FunctionalComponent = () => {
     <>
       <Breadcrumb path="/admin/create-article" />
       <div className="create-article-form relative px-8 py-16 mx-auto max-w-7xl md:px-12 lg:px-18 lg:py-22">
-        <h1 className="text-3xl font-normal tracking-tighter text-black sm:text-4xl lg:text-5xl mb-8">
+        <h1 className="text-3xl font-normal tracking-tighter text-zinc-300 sm:text-4xl lg:text-5xl mb-8">
           Create New Article
         </h1>
         <form
@@ -322,7 +322,7 @@ export const AdminCreateArticle: FunctionalComponent = () => {
             }}
           />
           <button
-            className="bg-indigo-700 hover:bg-indigo-800 text-white p-3 w-full mt-4 transition-all duration-300 disabled:opacity-50"
+            className="bg-yellow-700 hover:bg-yellow-800 text-white p-3 w-full mt-4 transition-all duration-300 disabled:opacity-50"
             type="submit"
             disabled={
               loading ||
@@ -366,10 +366,10 @@ const InputField = ({
     <label>{label}:</label>
     <input
       type={type}
-      className={`border p-2 w-full transition duration-200 focus:outline-none ${
+      className={`border p-2 w-full border border-zinc-900 focus:border-zinc-800 focus:bg-zinc-900 hover:bg-zinc-950 duration-500 hover:border-zinc-800 transition bg-zinc-900  text-zinc-200 focus:outline-none ${
         exists || failedRegex
-          ? "border-red-500"
-          : "hover:border-gray-400 focus:border-indigo-500"
+          ? "border-red-500 bg-zinc-800 text-white"
+          : "hover:border-zinc-400 bg-zinc-800 focus:bg-zinc-900 focus:border-yellow-500 text-white"
       }`}
       value={value}
       onInput={(e) => onChange((e.currentTarget as HTMLInputElement).value)}
@@ -394,7 +394,7 @@ const TextAreaField = ({
   <label className="block">
     {label}:
     <textarea
-      className="border border-gray-300 hover:border-gray-400 p-2 w-full transition duration-200 focus:outline-none"
+      className="border border-zinc-900 focus:border-zinc-800 focus:bg-zinc-900 hover:bg-zinc-950 duration-500 hover:border-zinc-800 p-2 w-full transition focus:outline-none bg-zinc-900  text-zinc-200"
       value={value}
       onInput={(e) => onChange(e.currentTarget.value)}
       required
@@ -416,7 +416,7 @@ const SelectField = ({
   <label className="block">
     {label}:
     <select
-      className="border border-gray-300 hover:border-gray-400 p-2 w-full transition duration-200 focus:outline-none"
+      className="border border-zinc-900 focus:border-zinc-800 focus:bg-zinc-900 hover:bg-zinc-950 duration-500 hover:border-zinc-800 p-2 w-full transition focus:outline-none bg-zinc-900  text-zinc-200"
       onChange={(e) => onChange(e.currentTarget.value)}
       value={selectedValue}
       defaultValue={"Choose here"}
