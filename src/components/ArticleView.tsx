@@ -29,12 +29,9 @@ export const ArticleView: FunctionalComponent<DetailViewProps> = ({
     const [showMore, setShowMore] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Determine if the device supports the Web Share API
     const canShare = navigator.share !== undefined;
-    // Determine if the device is likely a desktop (based on screen width)
     const isDesktop = window.innerWidth > 1024;
 
-    // Toggle for showing more options
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (
@@ -57,9 +54,9 @@ export const ArticleView: FunctionalComponent<DetailViewProps> = ({
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
         document.removeEventListener("keydown", handleKeyDown);
-        document.removeEventListener("keydown", handleKeyDown);
       };
     }, []);
+
     const encodedUrl = encodeURIComponent(url);
     const encodedTitle = encodeURIComponent(title);
 
@@ -83,32 +80,32 @@ export const ArticleView: FunctionalComponent<DetailViewProps> = ({
     };
 
     return (
-      <div className="mt-4 !z-50">
+      <div className="mt-4 !z-50 relative">
         <div className="flex space-x-4">
           <a
             href={`https://discord.com/channels/@me?url=${encodedUrl}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-indigo-600 hover:text-indigo-800"
+            className="text-white hover:text-indigo-300"
           >
             <i className="fab fa-discord"></i>
           </a>
           <a
             href={`mailto:?subject=${encodedTitle}&body=${encodedUrl}`}
-            className="text-gray-600 hover:text-gray-800"
+            className="text-gray-400 hover:text-white"
           >
             <i className="fas fa-envelope"></i>
           </a>
           <button
             onClick={copyToClipboard}
-            className="text-gray-600 hover:text-gray-800"
+            className="text-gray-400 hover:text-white"
           >
             <i className="fas fa-link"></i>
           </button>
           {canShare && (
             <button
               onClick={nativeShare}
-              className="text-gray-600 hover:text-gray-800"
+              className="text-gray-400 hover:text-white"
             >
               <i className="fas fa-share-alt"></i>
             </button>
@@ -116,14 +113,14 @@ export const ArticleView: FunctionalComponent<DetailViewProps> = ({
           {isDesktop && (
             <button
               onClick={() => window.print()}
-              className="text-gray-600 hover:text-gray-800"
+              className="text-gray-400 hover:text-white"
             >
               <i className="fas fa-print"></i>
             </button>
           )}
           <button
             onClick={() => setShowMore(!showMore)}
-            className="text-gray-600 hover:text-gray-800"
+            className="text-gray-400 hover:text-white"
           >
             <i className="fas fa-ellipsis-h"></i>
           </button>
@@ -131,15 +128,14 @@ export const ArticleView: FunctionalComponent<DetailViewProps> = ({
         {showMore && (
           <div
             ref={dropdownRef}
-            className="absolute -top-6 right-4 p-4 flex space-x-2 shadow-lg rounded-lg  transition-opacity duration-300 ease-in-out"
-            style={{ opacity: showMore ? 1 : 0 }}
+            className="absolute top-full right-0 mt-2 p-4 bg-zinc-900 rounded-lg shadow-lg z-10"
           >
-            <div className="flex space-x-4 items-center transition-all duration-300 ease-in-out transform origin-top">
+            <div className="flex space-x-4 items-center">
               <a
                 href={`https://steamcommunity.com/sharedfiles/edititem/767/3/?url=${encodedUrl}&title=${encodedTitle}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-700 hover:text-gray-900"
+                className="text-white hover:text-indigo-300"
               >
                 <i className="fab fa-steam"></i>
               </a>
@@ -147,7 +143,7 @@ export const ArticleView: FunctionalComponent<DetailViewProps> = ({
                 href={`https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-orange-500 hover:text-orange-700"
+                className="text-orange-500 hover:text-orange-300"
               >
                 <i className="fab fa-reddit-alien"></i>
               </a>
@@ -155,7 +151,7 @@ export const ArticleView: FunctionalComponent<DetailViewProps> = ({
                 href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800"
+                className="text-blue-500 hover:text-blue-300"
               >
                 <i className="fab fa-linkedin-in"></i>
               </a>
@@ -165,82 +161,42 @@ export const ArticleView: FunctionalComponent<DetailViewProps> = ({
       </div>
     );
   };
-
   return (
-    <>
-      <svg
-        className="absolute blur-3xl opacity-15 right-96 -mt-96 z-0"
-        width="70%"
-        height="70%"
-        viewBox="0 0 400 400"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g clipPath="url(#clip0_17_60)">
-          <g filter="url(#filter0_f_17_60)">
-            <path
-              d="M128.6 0H0V322.2L332.5 211.5L128.6 0Z"
-              fill="#4D07E3"
-            ></path>
-            <path
-              d="M0 322.2V400H240H320L332.5 211.5L0 322.2Z"
-              fill="#4C00FF"
-            ></path>
-            <path
-              d="M320 400H400V78.75L332.5 211.5L320 400Z"
-              fill="#B5BFF1"
-            ></path>
-            <path
-              d="M400 0H128.6L332.5 211.5L400 78.75V0Z"
-              fill="#7fcef3"
-            ></path>
-          </g>
-        </g>
-        <defs>
-          <filter
-            id="filter0_f_17_60"
-            x="-159.933"
-            y="-159.933"
-            width="719.867"
-            height="719.867"
-            filterUnits="userSpaceOnUse"
-            colorInterpolationFilters="sRGB"
-          >
-            <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            ></feBlend>
-            <feGaussianBlur
-              stdDeviation="79.9667"
-              result="effect1_foregroundBlur_17_60"
-            ></feGaussianBlur>
-          </filter>
-        </defs>
-      </svg>
+    <article className="container mx-auto px-4 py-8  text-white">
+      <div className="max-w-6xl min-h-full mx-auto">
 
-      <div className="px-8 py-32 mx-auto ml article-container md:px-6 lg:px-18 lg:py-22 relative">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-row mb-8 items-baseline justify-between">
+                  <div className="flex justify-between items-center">
           <button
-            className="group w-10 h-10 rounded-full border border-stone-300 text-stone-600 text-lg flex items-center justify-center transition duration-300 !bg-stone-200 cursor-pointer hover:!bg-gray-300"
+            className="group w-10 h-10 rounded-full border border-zinc-800 text-zinc-600 text-lg flex items-center justify-center transition duration-300 hover:bg-zinc-800 cursor-pointer"
             onClick={onBack}
           >
             <i className="fas fa-arrow-up transform -rotate-45 transition-transform duration-300 group-hover:-rotate-90"></i>
           </button>
-          <ShareButtons url={window.location.href} title={item.Title} />
+
         </div>
-        <h1 className="mt-8 text-4xl font-normal tracking-tighter text-black/75 sm:text-5xl">
-          {item.Title.split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ")}
-          <hr className="my-4"></hr>
-        </h1>
-        <div className="detail-view px-4 py-4">
-          <div className="mt-4">{renderContent(contentElements, true)}</div>
+        <div>      <ShareButtons url={window.location.href} title={item.Title} /></div>
+        </div>
+<div className="mb-6 border-b !border-spacing-y-72 border-b-zinc-800 ">
+<div className="flex flex-col justify-between  mb-6">
+<div>
+       <h1 className="text-4xl font-bold text-white">{item.Title}</h1>
+</div>
+<div className="text-gray-400">
+          <span>{new Date(item.CreatedAt).toLocaleDateString()}</span>
+        </div>
+</div>
+
+</div>
+
+ 
+        {/* {item.ImgSrc && (
+          <img src={item.ImgSrc} alt={item.Title} className="w-full h-64 object-cover rounded-lg mb-6" />
+        )} */}
+        <div className="prose prose-lg prose-invert p-8 bg-stone-950/25 rounded-lg max-w-none text-gray-300">
+          {renderContent(contentElements, true)}
         </div>
       </div>
-    </>
+    </article>
   );
 };

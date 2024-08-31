@@ -47,7 +47,7 @@
     // ToastNotifications: false, // Set this to true or false to enable/disable toast notifications
     // TextDiffViewer: false, // Set this to true or false to enable/disable text diff viewer
     HomeSearch: false, // Set this to true or false to enable/disable home search
-    StaffOnly: true, // Set this to true or false to enable/disable the staff only feature
+    StaffOnly: false, // Set this to true or false to enable/disable the staff only feature
     ArchiveArticle: true, // Set this to true or false to enable/disable archiving articles
     CreateCategory: true, // Set this to true or false to enable/disable category creation
     CreateArticle: true, // Set this to true or false to enable/disable article creation
@@ -60,18 +60,18 @@
     ViewChangeLog: true, // Set this to true or false to enable/disable viewing the change log for an article
     ViewAdminLogs: false, // Set this to true or false to enable/disable viewing admin logs
     ViewRecycleBin: true, // Set this to true or false to enable/disable...
-    CategoriesPage: true, // Set this to true or false to enable/disable the categories page
+    CategoriesPage: false, // Set this to true or false to enable/disable the categories page
     SpecificCategoryPage: true, // Set this to true or false to enable/disable the specific category page
     BackButtonArticleView: true, // Set this to true or false to enable/disable the back button when viewing an article
-    Breadcrumbs: true, // Set this to true or false to enable/disable breadcrumbs
+    Breadcrumbs: false, // Set this to true or false to enable/disable breadcrumbs
     AdminDashboard: true, // Set this to true or false to enable/disable admin login
     PreviewArticle: true, // Set this to true or false to enable/disable previewing articles
-    NotificationBanner: true, // Feature flag for the little notification / banner at the top of the page
+    NotificationBanner: false, // Feature flag for the little notification / banner at the top of the page
     ViewArticleChangelog: true, // Set this to true or false to enable/disable...
     ViewPotentialArticleChanges: true, // Set this to true or false to enable/disable...
     articleDetailedCharacterLimit: false, // Set this to true or false to enable/disable...
-    SupportSystem: true,
-    AdminViewRequests: true
+    SupportSystem: false,
+    AdminViewRequests: false
   };
     
   export function isFeatureEnabled(flag: keyof FeatureFlags): boolean {

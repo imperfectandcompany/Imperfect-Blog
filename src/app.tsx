@@ -7,7 +7,6 @@ import Article from "./components/Article";
 import { Categories } from "./components/Categories";
 import { CategoryItems } from "./components/CategoryItems";
 import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
 import { NotFound } from "./components/NotFound";
 import Home from "./components/Home";
 import { Admin } from "./components/Admin";
@@ -28,6 +27,8 @@ import AdminSupportForm from "./components/AdminSupportForm";
 import SupportRequestDetails from "./components/SupportForm/SupportRequestDetails";
 import { ToastProvider } from "./contexts/ToastContext";
 import ToastContainer from "./components/ToastContainer";
+import Header from "./components/Header";
+import BlogPost from "./components/BlogPost";
 
 export interface AppState {
   searchQuery: string | null;
@@ -411,16 +412,9 @@ export function App(): VNode {
     <ToastProvider>
       <ContentProvider>
         <AuthProvider>
-          <div className="flex flex-col min-h-screen md:!mt-3">
+          <div className="flex flex-col min-h-screen">
             <Header
-              onSearchChange={handleSearchChange}
-              onLogoClick={() => dispatch({ type: "CLEAR_SEARCH" })}
-              searchQuery={
-                isFeatureEnabled("HomeSearch") ? state.searchQuery : null
-              }
-              onCategoryClick={() => dispatch({ type: "CLEAR_SEARCH" })}
             />
-
             {isFeatureEnabled("NotificationBanner") && (
               <div className="">
                 <div class="mx-4 md:mx-56 relative mt-8  bg-gradient-to-b from-indigo-500 via-indigo-500/5 to-indigo-500/10 shadow-lg rounded-lg p-1 ">
@@ -506,6 +500,13 @@ export function App(): VNode {
                         dispatch({ type: "CLEAR_SEARCH" })
                       }
                     />
+                    <BlogPost
+                      path="/post/:title"
+                      lastRoute={state.lastRoute || "/"}
+                      onBreadcrumbClick={() =>
+                        dispatch({ type: "CLEAR_SEARCH" })
+                      }
+                    />
                     {isFeatureEnabled("CategoriesPage") && (
                       <Categories
                         path="/categories"
@@ -580,7 +581,7 @@ export function App(): VNode {
                 </ErrorBoundary>
               </div>
             </main>
-            <div className="bottom-0 bg-white p-6 flex flex-col ">
+            <div className="bottom-0  p-6 flex flex-col ">
               <Footer />
             </div>
           </div>

@@ -1,126 +1,115 @@
-/** src/components/Home.tsx **/
-
-import { useContext, useState } from "preact/hooks";
+import { useContext, useState, useEffect } from "preact/hooks";
 import { ContentContext } from "../contexts/ContentContext";
 import { route } from "preact-router";
 
-const Home = () => {
-  const { categories, articles, loading } = useContext(ContentContext) || {
-    categories: [],
-    articles: [],
-  };
-
-  // Function to navigate to category details
-  const navigateToCategory = (categorySlug: string) => {
-    route(`/category/${categorySlug}`);
-  };
-
-
-  const handleClick = (categorySlug:string) => {
-  if (!fadeOut) {
-    setFadeOut(true);
-    setTimeout(() => {
-        navigateToCategory(categorySlug);
-    }, 500); // Wait for the animation to complete
-  }
+interface BlogPost {
+  ArticleID: number;
+  Slug: string;
+  Title: string;
+  Description: string;
+  CreatedAt: string;
+  CategoryID: number;
 }
 
-const [fadeOut, setFadeOut] = useState(false);
+interface Category {
+  CategoryID: number;
+  Title: string;
+}
 
+const Home = () => {
+  const { categories } = useContext(ContentContext);
+  const [articles, setArticles] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
+  useEffect(() => {
+    fetchBlogPosts();
+  }, []);
+
+  const fetchBlogPosts = async () => {
+    try {
+      const response = await fetch('https://api.imperfectgamers.org/blog/fetch/all/articles');
+      const text = await response.text();
+      try {
+        const data = JSON.parse(text);
+        if (data.status === 'success' && Array.isArray(data.articles)) {
+          setArticles(data.articles);
+        } else {
+          console.error('Unexpected data structure:', data);
+        }
+      } catch (jsonError) {
+        console.error('Error parsing JSON:', jsonError);
+        console.log('Raw response:', text);
+      }
+    } catch (error) {
+      console.error('Error fetching blog posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const navigateToBlogPost = (postSlug: string) => {
+    route(`/post/${postSlug}`);
+  };
+
+  const handleClick = (postSlug: string) => {
+    if (!fadeOut) {
+      setFadeOut(true);
+      setTimeout(() => {
+        navigateToBlogPost(postSlug);
+      }, 500);
+    }
+  };
+
+  const getCategoryTitle = (categoryId: number): string => {
+    const category = categories.find((cat: { CategoryID: number; }) => cat.CategoryID === categoryId);
+    return category ? category.Title : 'Uncategorized';
+  };
 
   return (
-    <div className={`${fadeOut ? "fade-out" : "animate-fade-in"}`}>
-      <svg
-        className="absolute blur-3xl right-0 opacity-80"
-        width="50%"
-        height="100%"
-        viewBox="0 0 400 400"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g clipPath="url(#clip0_17_60)">
-          <g filter="url(#filter0_f_17_60)">
-            <path
-              d="M128.6 0H0V322.2L332.5 211.5L128.6 0Z"
-              fill="#4D07E3"
-            ></path>
-            <path
-              d="M0 322.2V400H240H320L332.5 211.5L0 322.2Z"
-              fill="#4C00FF"
-            ></path>
-            <path
-              d="M320 400H400V78.75L332.5 211.5L320 400Z"
-              fill="#7fcef3"
-            ></path>
-            <path
-              d="M400 0H128.6L332.5 211.5L400 78.75V0Z"
-              fill="#7fcef3"
-            ></path>
-          </g>
-        </g>
-        <defs>
-          <filter
-            id="filter0_f_17_60"
-            x="-159.933"
-            y="-159.933"
-            width="719.867"
-            height="719.867"
-            filterUnits="userSpaceOnUse"
-            colorInterpolationFilters="sRGB"
-          >
-            <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            ></feBlend>
-            <feGaussianBlur
-              stdDeviation="79.9667"
-              result="effect1_foregroundBlur_17_60"
-            ></feGaussianBlur>
-          </filter>
-        </defs>
-      </svg>
-      <div className="container mx-auto relative px-8 py-16 max-w-7xl md:px-12 lg:px-18 lg:py-22 ">
-        <span className="text-xs font-medium tracking-widest text-transparent uppercase bg-clip-text bg-gradient-to-r from-indigo-300 via-indigo-400 to-indigo-500">
-          Support Center
+    <div className={`${fadeOut ? "fade-out" : "animate-fade-in"}  text-white`}>
+      <div className="container mx-auto relative px-8 py-16 max-w-7xl md:px-12 lg:px-18 lg:py-22">
+          <span className="text-xs font-medium tracking-widest text-transparent uppercase bg-clip-text bg-gradient-to-r from-red-400 via-[#ffcc47] to-[#ff6347]">
+          Imperfect Gamers Blog
         </span>
-        <p className="mt-8 text-3xl font-normal tracking-tighter text-black sm:text-4xl lg:text-5xl">
-          Hi, how can we help you?
-        </p>
-        <div className="additional-image mt-8 animate-fade-in" aria-hidden="true"></div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 animate-fade-in">
-          {loading
-            ? Array.from(
-                { length: Math.floor(Math.random() * 3) + 1 },
-                (_, index) => (
-                  <div
-                    key={index}
-                    className="category-card bg-white cursor-pointer shadow-md rounded-lg p-4"
-                  >
-                    <div className="animate-pulse">
-                      <div className="h-4 bg-gray-300 rounded w-3/4"></div>{" "}
-                      {/* Skeleton text line */}
-                    </div>
-                  </div>
-                )
-              )
-            : categories.map((category) => (
-                <div
-                  key={category.CategoryID}
-                  className="bg-white hover:bg-blue-100 cursor-pointer shadow-md hover:shadow-lg rounded-lg p-4 transition duration-200 ease-in-out transform hover:-translate-y-1"
-                  onClick={() => handleClick(category.Slug)}
-                >
-                  <h3 className="text-xl font-bold text-gray-800">
-                    {category.Title}
-                  </h3>
+        <h1 className="mt-8 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          The Latest
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 animate-fade-in">
+          {loading ? (
+            Array.from({ length: 6 }, (_, index) => (
+              <div key={index} className="bg-zinc-950 rounded-lg p-6 shadow-lg">
+                <div className="animate-pulse">
+                <div className="h-4 bg-zinc-900 rounded w-1/4 mb-2"></div>
+                  <div className="h-6 bg-zinc-800 rounded w-3/4 mb-4"></div>
+                  <div className="h-4 bg-zinc-800 rounded w-full mb-2"></div>
+                  <div className="h-4 bg-zinc-800 rounded w-full mb-2"></div>
+                  <div className="h-4 bg-zinc-800 rounded w-2/3 mb-4"></div>
+                  <div className="h-4 bg-zinc-800 rounded w-1/4"></div>
                 </div>
-              ))}
+              </div>
+            ))
+          ) : articles.length > 0 ? (
+            articles.map((post) => (
+              <div
+                key={post.ArticleID}
+                className="bg-zinc-950 hover:bg-zinc-900 cursor-pointer shadow-md hover:shadow-lg rounded-lg p-6 transition duration-200 ease-in-out transform hover:-translate-y-1"
+                onClick={() => handleClick(post.Slug)}
+              >
+                <div className="text-xs uppercase text-transparent bg-clip-text bg-gradient-to-br from-[#ff6347] to-[#ffcc47] mb-2">{getCategoryTitle(post.CategoryID)}</div>
+                <h3 className="text-xl font-bold text-white mb-2">{post.Title}</h3>
+                <p className="text-gray-400 mb-4 line-clamp-3">{post.Description}</p>
+                <div className="flex items-center text-sm text-gray-500">
+                  <span>{new Date(post.CreatedAt).toLocaleDateString()}</span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="col-span-3 text-center text-gray-400">No articles found.</div>
+          )}
         </div>
       </div>
-</div>
+    </div>
   );
 };
 
