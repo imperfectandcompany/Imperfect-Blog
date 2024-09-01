@@ -560,8 +560,12 @@ export const content: Content = {
     copyright: "© 2024 Imperfect Gamers. All rights reserved.",
     links: [
       { href: 'https://imperfectgamers.org/', label: 'Home' },
-      { href: 'https://store.imperfectgamers.org/', label: 'Store' },
       { href: 'https://stats.imperfectgamers.org/', label: 'Stats' },
+      { href: 'https://infractions.imperfectgamers.org/', label: 'Infractions' },
+      { href: 'https://store.imperfectgamers.org/', label: 'Store' },
+      // Add the following new links
+      { href: 'https://blog.imperfectgamers.org/', label: 'Blog' },
+      { href: 'https://support.imperfectgamers.org/', label: 'Support' }
     ],
   },
 };

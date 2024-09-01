@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "preact/hooks";
 import { Article, ContentContext } from "../contexts/ContentContext";
 import { route } from "preact-router";
+import { ComponentChild, VNode } from "preact";
 
 interface BlogPost {
   ArticleID: number;
@@ -109,10 +110,10 @@ const Home = () => {
               </div>
             ))
           ) : articles.length > 0 ? (
-            articles.map((post) => (
+            articles.map((post: { ArticleID: any; Slug: string; CategoryID: number; Title: string | number | bigint | boolean | object | ComponentChild[] | VNode<any> | null | undefined; Description: string | number | bigint | boolean | object | ComponentChild[] | VNode<any> | null | undefined; CreatedAt: string | number | Date; }) => (
               <div
                 key={post.ArticleID}
-                className="bg-zinc-950 hover:bg-zinc-900 cursor-pointer shadow-md hover:shadow-lg rounded-lg p-6 transition duration-200 ease-in-out transform hover:-translate-y-1"
+                className="bg-zinc-950 hover:bg-zinc-900 cursor-pointer select-none shadow-md hover:shadow-lg rounded-lg p-6 transition duration-200 ease-in-out transform hover:-translate-y-1"
                 onClick={() => handleClick(post.Slug)}
               >
                 <div className="text-xs uppercase text-transparent bg-clip-text bg-gradient-to-br from-[#ff6347] to-[#ffcc47] mb-2">{getCategoryTitle(post.CategoryID)}</div>

@@ -1919,6 +1919,10 @@ nav > button:hover > svg {
   padding: 20px;
   opacity: 0;
 }
+
+nav {
+  z-index: 50 !important;
+}
         
 .modal-header {
   display: flex;
@@ -2260,3 +2264,95 @@ nav > button:hover > svg {
                 font-size: 0.75rem; /* Smaller font size for mobile */
             }
         }
+
+/* Custom scrollbar styles */
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4D07E3 #09090B;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: #121212; /* color of the tracking area */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #4D07E3; /* color of the scroll thumb */
+  border-radius: 6px; /* roundness of the scroll thumb */
+  border: 3px solid #121212; /* creates padding around scroll thumb */
+}
+
+/* Hide scrollbar when not needed */
+html {
+  overflow-y: auto;
+}
+
+/* Hide scrollbar for Webkit browsers when not needed */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar space in Firefox when not needed */
+html {
+  scrollbar-width: none; /* Firefox */
+}
+
+#topbutton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none; /* Hidden by default */
+  z-index: 1000; /* Make sure it's above other content */
+  cursor: pointer;
+  /* Add additional styling as needed */
+}
+
+
+
+/* Add this to your index.css file */
+
+/* Add this to your index.css file */
+
+/* Inverted to white and transition to original on hover for images in the footer */
+.footer-image {
+  transition: filter 0.3s ease-in-out;
+}
+
+.footer-image:hover {
+  filter: none;
+}
+
+footer {
+  z-index:0 !important;
+}
+
+/* Style text selection with a solid color that matches the gradient */
+::selection {
+  background: #ffdd57; /* Solid color close to the middle of your gradient */
+  color: #333; /* Dark text for contrast */
+}
+
+/* Mozilla Firefox alternative */
+::-moz-selection {
+  background: #ffdd57; /* Solid color close to the middle of your gradient */
+  color: #333; /* Dark text for contrast */
+}
+/* Ensure the SVG has a lower z-index but is not negative */
+.lowindex {
+  z-index: 0; /* This should be less than the z-index of the links container */
+}
+
+/* Ensure the links container has a higher z-index */
+.highindex {
+  position: relative;
+  z-index: 1; /* This should be higher than the z-index of the SVG */
+}
+
+.minhalf {
+    min-height: 75vh;
+}

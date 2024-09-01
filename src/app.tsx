@@ -211,7 +211,7 @@ const AdminRoute: React.FC<AdminRouteProps> = ({
           alt="Imperfect and Company logo"
         />
         <div className="flex flex-col mr-8 space-y-8">
-          <div className="flex items-center mx-auto">Imperfect Identity</div>
+          <div className="flex items-center mx-auto text-zinc-800">Imperfect Identity</div>
           <ProgressBar duration={250} />
         </div>
       </div>
@@ -408,6 +408,27 @@ export function App(): VNode {
     }
   }
 
+
+
+      useEffect(() => {
+        const handleScroll = () => {
+          const topButton = document.getElementById('topbutton');
+          if (topButton) {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            topButton.style.display = scrollTop > 20 ? 'block' : 'none';
+          }
+        };
+    
+        // Attach the event listener
+        window.addEventListener('scroll', handleScroll);
+    
+        // Cleanup the event listener on component unmount
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }, []);
+
+
   return (
     <ToastProvider>
       <ContentProvider>
@@ -493,13 +514,7 @@ export function App(): VNode {
                     {isFeatureEnabled("SupportSystem") && (
                       <SupportForm path="/support" />
                     )}
-                    <Article
-                      path="/article/:title"
-                      lastRoute={state.lastRoute || "/"}
-                      onBreadcrumbClick={() =>
-                        dispatch({ type: "CLEAR_SEARCH" })
-                      }
-                    />
+
                     <BlogPost
                       path="/post/:title"
                       lastRoute={state.lastRoute || "/"}
@@ -581,10 +596,11 @@ export function App(): VNode {
                 </ErrorBoundary>
               </div>
             </main>
-            <div className="bottom-0  p-6 flex flex-col ">
+            <div className="bottom-0 z-0 p-6 flex flex-col ">
               <Footer />
             </div>
-          </div>
+              <a id="topbutton" href="#top"><i class="fas fa-arrow-up"></i></a>
+              </div>
         </AuthProvider>
       </ContentProvider>
     </ToastProvider>

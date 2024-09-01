@@ -56,7 +56,7 @@ const Header: React.FC = () => {
 				)}
 			</div>
 			{redirecting ? (
-				<div className="nav__list active redirecting !cursor-default">
+				<div className="nav__list active redirecting !cursor-default !z-50">
 					<div className="redirect-message flex w-full items-center justify-between">
 						<span>Redirecting in {countdown} seconds...</span>
 						<div className="px-4 py-1 md:visible">

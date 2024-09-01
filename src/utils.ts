@@ -119,6 +119,37 @@ export const addNewCategory = async ({
   }
 };
 
+
+// src/utils/seo.ts
+export const updateMetaTags = ({
+  title,
+  description,
+  imageUrl,
+  url,
+  keywords
+}: {
+  title: string;
+  description: string;
+  imageUrl: string;
+  url: string;
+  keywords: string;
+}) => {
+  document.title = title;
+  const metaDescription = document.querySelector('meta[name="description"]');
+  const metaKeywords = document.querySelector('meta[name="keywords"]');
+  const metaOgTitle = document.querySelector('meta[property="og:title"]');
+  const metaOgDescription = document.querySelector('meta[property="og:description"]');
+  const metaOgImage = document.querySelector('meta[property="og:image"]');
+  const metaOgUrl = document.querySelector('meta[property="og:url"]');
+
+  if (metaDescription) metaDescription.setAttribute('content', description);
+  if (metaKeywords) metaKeywords.setAttribute('content', keywords);
+  if (metaOgTitle) metaOgTitle.setAttribute('content', title);
+  if (metaOgDescription) metaOgDescription.setAttribute('content', description);
+  if (metaOgImage) metaOgImage.setAttribute('content', imageUrl);
+  if (metaOgUrl) metaOgUrl.setAttribute('content', url);
+};
+
 // Assuming each section can be uniquely identified by a key
 export const findCategoryById = (id: number): Section | null => {
   // Directly return the section if it exists, or null if it does not

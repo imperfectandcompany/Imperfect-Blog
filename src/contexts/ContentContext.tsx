@@ -182,7 +182,7 @@ interface ArticlesResponse {
 
 interface ArticleResponse {
   status: string;
-  article: Article[];
+  article: Article[] | "Article not found";
 }
 
 export interface DeletedArticlesResponse {
@@ -664,6 +664,8 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
 
   // Function to fetch an article by slug with caching
   const fetchArticleBySlugDirectly = async (slug: string) => {
+    setLoading(true);
+
     // Check if the article is already in the cache
     const cachedArticle = Object.values(articleCache).find(
       (article) => article?.Slug === slug
@@ -671,14 +673,20 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
 
     if (cachedArticle) {
       setCurrentArticle(cachedArticle);
+      setLoading(false);
       return; // Return early as we already have the article
     }
 
-    setLoading(true);
     try {
       const articleData: ArticleResponse = await fetchArticleBySlug(slug);
-      const article = articleData.article[0];
-      if (article) {
+      // Check if the response indicates the article was not found
+      if (articleData.status === 'success' && articleData.article === "Article not found") {
+        setError("Article not found");
+        setLoading(false);
+        return null; // Return null to indicate that the article was not found
+      }
+      const article = articleData.article.length > 0 ? articleData.article[0] : null;
+      if (article && typeof article !== 'string') {
         // Update the cache with the new article
         setArticleCache((prev) => ({ ...prev, [article.ArticleID]: article }));
         setCurrentArticle(article);
