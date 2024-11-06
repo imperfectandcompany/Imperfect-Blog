@@ -416,7 +416,7 @@ const EditorModule: FunctionalComponent<EditorModuleProps> = ({ elements, setEle
     "image",
     "list",
     "code",
-    "accordion",
+    // "accordion",
     // "achievement",
     // "achievementunlocks",
     // "admincommand",
@@ -471,22 +471,6 @@ const EditorModule: FunctionalComponent<EditorModuleProps> = ({ elements, setEle
   };
 
 
-  useEffect(() => {
-    document.addEventListener("click", handleClickAway);
-    const handleScroll = () => {
-      const addElementBlock = document.querySelector(".add-element-block");
-      if (addElementBlock) {
-        const rect = addElementBlock.getBoundingClientRect();
-        setDropdownPosition({ top: rect.bottom, left: rect.left });
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      document.removeEventListener("click", handleClickAway);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   const [availableSpaceBelow, setAvailableSpaceBelow] = useState<number>(0);
 
   const [dropdownDirection, setDropdownDirection] = useState<'down' | 'up'>('down'); // New state for dropdown direction
@@ -497,6 +481,32 @@ const EditorModule: FunctionalComponent<EditorModuleProps> = ({ elements, setEle
   const [dropdownHeight, setDropdownHeight] = useState<number>(0);
 
     const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+useEffect(() => {
+  document.addEventListener("click", handleClickAway);
+
+  const handleScroll = () => {
+    if (dropdownVisible) {
+      const addElementBlock = document.querySelector(".add-element-block");
+      if (addElementBlock) {
+        const rect = addElementBlock.getBoundingClientRect();
+        // Update the dropdown position based on the new position of the addElementBlock
+        setDropdownPosition((prevPosition) => ({
+          ...prevPosition,
+          top: dropdownDirection === 'down' ? rect.bottom : rect.top - dropdownHeight,
+          left: rect.left
+        }));
+      }
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    document.removeEventListener("click", handleClickAway);
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, [dropdownVisible, dropdownDirection, dropdownHeight]); // Add dependencies here
 
     const handleDropdownToggle = (event: MouseEvent) => {
         const target = event.currentTarget as HTMLElement;

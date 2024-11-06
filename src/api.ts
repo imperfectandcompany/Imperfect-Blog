@@ -11,7 +11,7 @@ import {
 import { IssueCategoriesResponse } from "./contexts/supportRequestContext";
 import { getToken } from "./utils";
 
-export const API_BASE_URL = "https://api.imperfectgamers.org/support";
+export const API_BASE_URL = "https://api.imperfectgamers.org/blog";
 
 export const fetchArticlesByCategoryId = async (categoryId: string) => {
   const response = await fetch(

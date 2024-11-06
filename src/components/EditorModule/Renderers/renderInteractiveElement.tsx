@@ -1,7 +1,7 @@
 import { JSX } from "preact/jsx-runtime";
 import { InteractiveElement } from "../Content/contentTypes";
 
-export   function renderInteractiveElement(
+export function renderInteractiveElement(
     element: InteractiveElement,
     index: number
   ): JSX.Element {
